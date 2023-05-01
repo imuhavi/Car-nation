@@ -66,3 +66,8 @@ range_filter_mileage_gas.change((changed) => {
     console.log(request_url);
     window.location.href = request_url;
 });
+
+
+function multiply(val1, val2){
+    return val1 * val2
+}

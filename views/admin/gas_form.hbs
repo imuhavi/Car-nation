@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>AutoGarage Admin</title>
+    <title>EM Motors Admin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -30,17 +30,17 @@
         <div class="form-row">
             <div class="form-group col-md-10">
                 <label>ImagePath (image/filename.extension)</label>
-                <input type="text" class="form-control" name="imagePath" placeholder="images/mus.jpg">
+                <input type="file" class="form-control" name="imagePath" placeholder="images/mus.jpg" required >
             </div>
 
 
             <div class="form-group col-md-3">
                 <label>Title</label>
-                <input type="text" class="form-control" name="title" placeholder="2019 Ford Mustang">
+                <input type="text" class="form-control" name="title" placeholder="2019 Ford Mustang" required>
             </div>
             <div class="form-group col-md-3">
                 <label>T2</label>
-                <input type="text" class="form-control" name="t2" placeholder="GT350 Coupe">
+                <input type="text" class="form-control" name="t2" placeholder="GT350 Coupe" required>
             </div>
 
             <div class="form-group col-md-2">
@@ -72,8 +72,10 @@
 
 
             <div class="form-group col-md-2">
-                <label>Engine</label>
-                <input type="number" step=0.1 class="form-control" name="engine" placeholder="5.0">
+                <label>Cc</label>
+                <select id="engineCapacity" class="form-control"></select>
+
+                {{!-- <input type="number" step=1 class="form-control" name="engine" placeholder="Enter engine capacity"> --}}
             </div>
             <div class="form-group col-md-2">
                 <label>Cylinders</label>
@@ -81,7 +83,17 @@
             </div>
             <div class="form-group col-md-3">
                 <label>Gearbox</label>
-                <input type="text" class="form-control" name="gearbox" placeholder="6-Speed SelectShift">
+                <select id="gearbox" class="form-control">
+                    <option value="manual">Manual Transmission</option>
+                    <option value="automatic">Automatic Transmission</option>
+                    <option value="cvt">Continuously Variable Transmission (CVT)</option>
+                    <option value="dct">Dual-Clutch Transmission (DCT)</option>
+                    <option value="smt">Sequential Manual Transmission (SMT)</option>
+                    <option value="amt">Automated Manual Transmission (AMT)</option>
+                    <option value="hybrid">Hybrid Transmission</option>
+                </select>
+
+                {{!-- <input type="text" class="form-control" name="gearbox" placeholder="6-Speed SelectShift"> --}}
             </div>
             <div class="form-group col-md-2">
                 <label>Transmission</label>
@@ -147,6 +159,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
         crossorigin="anonymous"></script>
+
+        <script>
+            var select = document.getElementById("engineCapacity");
+
+            for (var i = 900; i <= 6000; i += 100) {
+            var option = document.createElement("option");
+            option.value = i;
+            option.text = i + "cc";
+            select.appendChild(option);
+            }
+
+        </script>
 
 
 </body>
