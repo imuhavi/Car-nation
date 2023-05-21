@@ -30,7 +30,7 @@
         <div class="form-row">
             <div class="form-group col-md-10">
                 <label>ImagePath (image/filename.extension)</label>
-                <input type="file" class="form-control" name="imagePath" placeholder="images/mus.jpg" required >
+                <input type="file" class="form-control" name="images" placeholder="images/mus.jpg" required multiple>
             </div>
 
 
@@ -38,7 +38,30 @@
                 <label>Title</label>
                 <input type="text" class="form-control" name="title" placeholder="2019 Ford Mustang" required>
             </div>
+            <div class="form-group col-md-3">
+                <label>Car Type</label>
+                <select class="form-control" id="carTypes" name="carTypes">
+                    <option value="sedan">Sedan</option>
+                    <option value="suv">SUV</option>
+                    <option value="hatchback">Hatchback</option>
+                    <option value="coupe">Coupe</option>
+                    <option value="convertible">Convertible</option>
+                    <option value="wagon">Wagon</option>
+                    <option value="pickup-truck">Pickup Truck</option>
+                    <option value="van">Van</option>
+                    <option value="electric">Electric</option>
+                    <option value="hybrid">Hybrid</option>
+                    <option value="luxury">Luxury</option>
+                    <option value="sports">Sports</option>
+                    <option value="compact">Compact</option>
+                    <option value="mid-size">Mid-Size</option>
+                    <option value="full-size">Full-Size</option>
+                    <option value="crossover">Crossover</option>
+                    <option value="off-road">Off-Road</option>
+                    <!-- Add more car types as needed -->
+                </select>
 
+            </div>
             <div class="form-group col-md-2">
                 <label>Year</label>
                 <input type="number" class="form-control" name="year" placeholder="2019">
@@ -63,7 +86,7 @@
             
             <div class="form-group col-md-3">
                 <label>Gearbox</label>
-                <select id="gearbox" class="form-control">
+                <select id="gearbox" name="gearbox" class="form-control" name="gearbox">
                     <option value="manual">Manual Transmission</option>
                     <option value="automatic">Automatic Transmission</option>
                     <option value="cvt">Continuously Variable Transmission (CVT)</option>
@@ -79,7 +102,7 @@
 
             <div class="form-group col-md-3">
                 <label>Color</label>
-                <select class="form-control" id="carColors">
+                <select class="form-control" id="carColors" name="colour">
                     <option value="red">Red</option>
                     <option value="blue">Blue</option>
                     <option value="green">Green</option>
@@ -93,7 +116,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label>Interior</label>
-                <select class="form-control" id="interiorOptions">
+                <select class="form-control" id="interiorOptions" name="interior">
                     <option value="leather">Leather</option>
                     <option value="cloth">Cloth</option>
                     <option value="suede">Suede</option>
@@ -104,7 +127,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label>Body</label>
-                <select class="form-control" id="bodyOptions">
+                <select class="form-control" id="bodyOptions" name="body">
                     <option value="sedan">Sedan</option>
                     <option value="hatchback">Hatchback</option>
                     <option value="SUV">SUV</option>
@@ -123,7 +146,7 @@
             </div>
             <div class="form-group col-md-2">
                 <label>Drivetrain</label>
-                <select class="form-control" id="driveTerrain">
+                <select class="form-control" id="driveTerrain" name="drivetrain">
                     <option value="2wd">2WD (Two-Wheel Drive)</option>
                     <option value="4wd">4WD (Four-Wheel Drive)</option>
                     <option value="awd">AWD (All-Wheel Drive)</option>
@@ -136,7 +159,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label>Wheel</label>
-                <select class="form-control" id="wheelOptions">
+                <select class="form-control" id="wheelOptions" name="wheel">
                     <option value="13">13-inch Wheels</option>
                     <option value="14">14-inch Wheels</option>
                     <option value="15">15-inch Wheels</option>
@@ -158,16 +181,92 @@
                 <label>Description</label>
                 <input type="text" class="form-control" name="description" placeholder="Description Info">
             </div>
-            <div class="form-group col-md-7">
+            <div class="form-group">
                 <label>Safety</label>
-                <input type="text" class="form-control" name="safety" placeholder="Safety Info">
+                {{!-- <input type="text" class="form-control" name="safety" placeholder="Safety Info"> --}}
+            
+                <div class="form-control" id="safetyOptions">
+                    <label>
+                        <input type="checkbox" name="safetyOption" value="abs"> Anti-lock Braking System (ABS)
+                    </label>
+                    <label>
+                        <input type="checkbox" name="safetyOption" value="airbags"> Airbags
+                    </label>
+                    <label>
+                        <input type="checkbox" name="safetyOption" value="traction-control"> Traction Control
+                    </label>
+                    <label>
+                        <input type="checkbox" name="safetyOption" value="stability-control"> Stability Control
+                    </label>
+                    <label>
+                        <input type="checkbox" name="safetyOption" value="blind-spot-monitoring"> Blind Spot Monitoring
+                    </label>
+                    <label>
+                        <input type="checkbox" name="safetyOption" value="lane-departure-warning"> Lane Departure Warning
+                    </label>
+                    <label>
+                        <input type="checkbox" name="safetyOption" value="forward-collision-warning"> Forward Collision Warning
+                    </label>
+                    <!-- Add more safety options as needed -->
+                </div>
             </div>
-            <div class="form-group col-md-7">
+            <div class="form-group">
                 <label>Technology</label>
-                <input type="text" class="form-control" name="technology" placeholder="Tech Info">
+                <div class="form-control" id="technologys">
+                <label>
+                    <input type="checkbox" name="technology" value="gps"> GPS Navigation
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="bluetooth"> Bluetooth Connectivity
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="backup-camera"> Backup Camera
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="blind-spot-monitoring"> Blind Spot Monitoring
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="lane-departure-warning"> Lane Departure Warning
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="adaptive-cruise-control"> Adaptive Cruise Control
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="android-auto"> Android Auto
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="apple-carplay"> Apple CarPlay
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="wireless-charging"> Wireless Charging
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="keyless-entry"> Keyless Entry
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="push-button-start"> Push Button Start
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="parking-assist"> Parking Assist
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="head-up-display"> Head-Up Display
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="smartphone-integration"> Smartphone Integration
+                </label>
+                <label>
+                    <input type="checkbox" name="technology" value="voice-control"> Voice Control
+                </label>
+                <!-- Add more technology options as needed -->
+                </div>
+
+
+                {{!-- <input type="text" class="form-control" name="technology" placeholder="Tech Info"> --}}
             </div>
 
         </div>
+        <br><br><br>
 
         <div class="form-group">
             <button type="submit" class="btn btn-info"> Save </button>

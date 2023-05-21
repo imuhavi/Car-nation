@@ -7,7 +7,7 @@ const ServiceModel = require('../models/ServiceModel');
 const CustomerModel = require('../models/CustomerModel');
 const UserModel = require("../models/UserModel");
 const sendEmail = require("../utils/mailer");
-
+const uuid = require('uuid');
 // Set Image Storage
 const storage = multer.diskStorage({
     destination: './public/images/',
@@ -148,15 +148,40 @@ router.get('/addgas', (req, res) => {
 });
 
 // POST Gas Car Form
+// ...
+
 router.post('/addgas', async function (req, res) {
+  let gas = new GasModel(req.body);
 
-    let gas = new GasModel(req.body);
+  // Assuming you have an array of images in req.body.images
+  const images = req.body.images;
 
-    result = await gas.save();
+  // Generate unique image names for each image
+  const uniqueImageNames = images.map(() => `${uuid.v4()}.png`);
+
+  // Save the images to a desired location, e.g., an "uploads" directory
+  const imagePaths = uniqueImageNames.map((imageName, index) => {
+    const imagePath = `uploads/${imageName}`;
+    // Save the image at the respective path
+    // Assuming images[index] is the file data for the current image
+    // You need to implement the logic to save the image to the disk or database
+    // For example:
+    // saveImage(images[index], imagePath);
+    return imagePath;
+  });
+
+  // Assign the image paths to the gas object
+  gas.imagePaths = imagePaths;
+
+  try {
+    const result = await gas.save();
     console.log(result);
-
     res.redirect('/admin/gas');
-
+  } catch (error) {
+    // Handle save errors
+    console.error(error);
+    res.status(500).send('Failed to add gas entry.');
+  }
 });
 
 

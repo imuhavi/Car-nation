@@ -11,6 +11,7 @@ const electricRouter = require('./routes/electric_index');
 const gasRouter = require('./routes/gas_index');
 const adminRouter = require('./routes/admin');
 var UserModel = require("./models/CustomerModel");
+var gasModelSchema = require("./models/GasModel");
 const app = express();
 
 
