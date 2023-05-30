@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>EM Motors Admin</title>
+    <title>Carnation Automart Admin</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -25,12 +25,14 @@
 
     <h3>Add Gas</h3>
 
-    <form action="addgas" method="POST" autocomplete="off">
+    <form action="addgas" method="POST" autocomplete="off" enctype="multipart/form-data">
 
         <div class="form-row">
             <div class="form-group col-md-10">
                 <label>ImagePath (image/filename.extension)</label>
-                <input type="file" class="form-control" name="images" placeholder="images/mus.jpg" required multiple>
+                 <input type="file" name="file1">
+                <input type="file" name="file2">
+                {{!-- <input type="file" class="form-control" name="images" placeholder="images/mus.jpg" multiple> --}}
             </div>
 
 
@@ -40,7 +42,7 @@
             </div>
             <div class="form-group col-md-3">
                 <label>Car Type</label>
-                <select class="form-control" id="carTypes" name="carTypes">
+                <select class="form-control" id="carTypes" name="carType">
                     <option value="sedan">Sedan</option>
                     <option value="suv">SUV</option>
                     <option value="hatchback">Hatchback</option>

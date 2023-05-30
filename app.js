@@ -6,9 +6,11 @@ const logger = require('morgan');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
 const compression = require('compression');
+const carImportRouter = require('./routes/car_model');
 
 const electricRouter = require('./routes/electric_index');
 const gasRouter = require('./routes/gas_index');
+const importCarRouter = require('./routes/import_car');
 const adminRouter = require('./routes/admin');
 var UserModel = require("./models/CustomerModel");
 var gasModelSchema = require("./models/GasModel");
@@ -62,6 +64,20 @@ app.get('/', (req, res) => {
 });
 
 
+// Define a route for the contact page
+app.get('/contact', (req, res) => {
+    // Sample contact information
+    const contactInfo = {
+      name: 'Car Nation Automart',
+      email: 'info@carnationautomart.com',
+      phone: '+254707222777, +254703840814, +254719848282',
+      address: 'Langata Road, Off Southern Bypass, Opposite Uhuru gardens',
+      mapLocation: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.6789!2d-74.123456!3d40.123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDIwJzM1LjIiTiA3NMKwNTcnNDYuNyJX!5e0!3m2!1sen!2sus!4v1622592800000!5m2!1sen!2sus',
+    };
+  
+    // Render the contact page template with the contact information
+    res.render('contact', { contactInfo });
+  });
 app.get('/home', function (req, res) {
     res.sendFile(__dirname + "/routes/home.html");
 });
@@ -69,6 +85,8 @@ app.get('/home', function (req, res) {
 app.use('/admin', adminRouter);
 app.use('/electric', electricRouter);
 app.use('/gas', gasRouter);
+app.use('/import-car', importCarRouter);
+app.use('/car-import', carImportRouter);
 
 
 //Users

@@ -7,22 +7,33 @@ const ServiceModel = require('../models/ServiceModel');
 const CustomerModel = require('../models/CustomerModel');
 const UserModel = require("../models/UserModel");
 const sendEmail = require("../utils/mailer");
-const uuid = require('uuid');
+const app = express();
+
 // Set Image Storage
-const storage = multer.diskStorage({
-    destination: './public/images/',
-    filename: function (req, file, cb) {
-        cb(null, file.originalname);
+// const storage = multer.diskStorage({
+//     destination: './public/images/',
+//     filename: function (req, file, cb) {
+//         cb(null, file.originalname);
 
 
-    }
-});
-// Init Upload
-const upload = multer({
-    storage: storage
-}).single('imageupld');
+//     }
+// });
+// // Init Upload
+// const upload = multer({
+//     storage: storage
+// }).single('imageupld');
 
-
+// Configure multer storage
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//       cb(null, 'public/images'); // Set the destination folder
+//     },
+//     filename: (req, file, cb) => {
+//       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+//       cb(null, file.fieldname + '-' + uniqueSuffix + '.' + file.originalname.split('.').pop());
+//     }
+//   });
+  
 
 router.use(express.static("public"));
 
@@ -129,7 +140,12 @@ router.get('/deleteelectric/:id', async function (req, res) {
 });
 
 
+// Import Cars
+router.get('/import-car', async function (req, res) {
 
+    let gas_models = await GasModel.find();
+    res.render("admin/import_car", { list: gas_models, layout: 'layout_list' });
+});
 
 
 
@@ -146,43 +162,106 @@ router.get('/gas', async function (req, res) {
 router.get('/addgas', (req, res) => {
     res.render("admin/gas_form", { layout: false });
 });
+const upload = multer({ dest: 'public/images/' });
+// // POST Gas Car Form
+// router.post('/addgas', async function (req, res) {
 
-// POST Gas Car Form
+//     let gas = new GasModel(req.body);
+
+//     result = await gas.save();
+//     console.log(result);
+
+//     res.redirect('/admin/gas');
+
+// });
+const fs = require('fs');
+const path = require('path');
+const fileUpload = require('express-fileupload');
+
 // ...
 
-router.post('/addgas', async function (req, res) {
-  let gas = new GasModel(req.body);
+// Apply the fileUpload middleware with custom options
+app.use(fileUpload({
+  limits: { fileSize: 5 * 1024 * 1024 }, // Set the maximum file size (in bytes)
+  useTempFiles : true, // Save files to the OS's temporary directory
+  tempFileDir : '/tmp' // Specify the temporary directory path
+}));
 
-  // Assuming you have an array of images in req.body.images
-  const images = req.body.images;
+// ...
 
-  // Generate unique image names for each image
-  const uniqueImageNames = images.map(() => `${uuid.v4()}.png`);
-
-  // Save the images to a desired location, e.g., an "uploads" directory
-  const imagePaths = uniqueImageNames.map((imageName, index) => {
-    const imagePath = `uploads/${imageName}`;
-    // Save the image at the respective path
-    // Assuming images[index] is the file data for the current image
-    // You need to implement the logic to save the image to the disk or database
-    // For example:
-    // saveImage(images[index], imagePath);
-    return imagePath;
-  });
-
-  // Assign the image paths to the gas object
-  gas.imagePaths = imagePaths;
-
+router.post('/addgas', async (req, res) => {
   try {
+    // Check if files were uploaded
+    if (!req.files || Object.keys(req.files).length === 0) {
+      return res.status(400).json({ error: 'No files were uploaded.' });
+    }
+
+    const gas = new GasModel(req.body);
+    const imagePaths = [];
+
+    // Iterate over the uploaded files
+    for (const fileKey in req.files) {
+      const file = req.files[fileKey];
+      const uniqueFilename = `${uuidv4()}_${file.name}`;
+      const imagePath = path.join('images', uniqueFilename);
+
+      // Move the file to the desired location
+      await file.mv(imagePath);
+
+      // Add the unique filename to the imagePaths array
+      imagePaths.push(uniqueFilename);
+    }
+
+    // Set the imagePaths field of the gas document
+    gas.imagePaths = imagePaths;
+
+    // Save the gas document to MongoDB
     const result = await gas.save();
     console.log(result);
+
     res.redirect('/admin/gas');
-  } catch (error) {
-    // Handle save errors
-    console.error(error);
-    res.status(500).send('Failed to add gas entry.');
+  } catch (err) {
+    // Handle any errors that occur during the process
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred while saving the gas document.' });
   }
 });
+
+// router.post('/addgas', async (req, res) => {
+//   try {
+//     const gas = new GasModel(req.body);
+
+//     const imagePaths = [];
+
+//     // Iterate over the uploaded files
+//     for (const file of req.files) {
+//       const uniqueFilename = `${uuidv4()}_${file.originalname}`;
+//       const imagePath = path.join('public/images', uniqueFilename);
+
+//       // Read the file from the temporary location
+//       const fileData = fs.readFileSync(file.path);
+
+//       // Write the file to the desired location
+//       fs.writeFileSync(imagePath, fileData);
+
+//       // Add the unique filename to the imagePaths array
+//       imagePaths.push(uniqueFilename);
+//     }
+
+//     // Set the imagePaths field of the gas document
+//     gas.imagePaths = imagePaths;
+
+//     // Save the gas document to MongoDB
+//     const result = await gas.save();
+//     console.log(result);
+
+//     res.redirect('/admin/gas');
+//   } catch (err) {
+//     // Handle any errors that occur during the process
+//     console.error(err);
+//     res.status(500).json({ error: 'An error occurred while saving the gas document.' });
+//   }
+// });
 
 
 // Delete Gas Car

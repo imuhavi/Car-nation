@@ -188,7 +188,11 @@
                     <h4>{{this.title}}</h4>
                 </div>
 
-                <img style="padding:2% 10%;" src=/{{this.imagePath}} alt="Model Pic">
+                <div class="model-images">
+                    <img style="padding: 2% 10%;" src="/{{this.imagePath.[0]}}" alt="Model Pic">
+                </div>
+
+
 
                 <div class="model-info">
 
@@ -343,6 +347,10 @@
                                 </button>
                             </a>
                         </div>
+                        <div class="col-sm availability">
+                            <span class="availability-status">{{this.availability}}</span>
+                        </div>
+
                     </div>
 
                 </div>
