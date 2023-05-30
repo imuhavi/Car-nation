@@ -174,8 +174,8 @@ const upload = multer({ dest: 'public/images/' });
 //     res.redirect('/admin/gas');
 
 // });
-const fs = require('fs');
-const path = require('path');
+//const fs = require('fs');
+//const path = require('path');
 const fileUpload = require('express-fileupload');
 
 // ...
